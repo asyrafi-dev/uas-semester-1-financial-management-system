@@ -278,88 +278,78 @@ ALGORITMA:
                     └────────┬────────┘
                              │
                              ▼
-                    ┌─────────────────┐
-                    │   Inisialisasi  │
-                    │    Variabel     │
-                    │    (Process)    │
-                    └────────┬────────┘
-                             │
-            ┌────────────────┴────────────────┐
-            │                                 │
-            ▼                                 │
-   ┌─────────────────┐                        │
-   │  Bersihkan      │                        │
-   │  Layar          │                        │
-   │  (Process)      │                        │
-   └────────┬────────┘                        │
-            │                                 │
-            ▼                                 │
-   ┌─────────────────┐                        │
-   │ Tampilkan       │                        │
-   │ Header & Menu   │                        │
-   │ (Process)       │                        │
-   └────────┬────────┘                        │
-            │                                 │
-            ▼                                 │
-   ┌─────────────────┐                        │
-   │  Input          │                        │
-   │  Pilihan        │                        │
-   │  (Input/Output) │                        │
-   └────────┬────────┘                        │
-            │                                 │
-            ▼                                 │
-   ┌─────────────────┐                        │
-   │   Pilihan?      │                        │
-   │   (Decision)    │                        │
-   └────────┬────────┘                        │
-            │                                 │
-    ┌───┬───┼───┬───┬───┬───┬───┬───┐        │
-    │   │   │   │   │   │   │   │   │        │
-    ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼   ▼        │
-   [1] [2] [3] [4] [5] [6] [7] [0] [X]       │
-    │   │   │   │   │   │   │   │   │        │
-    ▼   ▼   ▼   ▼   ▼   ▼   ▼   │   ▼        │
-  ┌───┬───┬───┬───┬───┬───┬───┐│ ┌───┐       │
-  │   │   │   │   │   │   │   ││ │Err│       │
-  │ T │ T │ L │ L │ L │ L │ R │└►│or │       │
-  │ a │ a │ i │ i │ i │ i │ e │  │   │       │
-  │ m │ m │ h │ h │ h │ h │ s │  └─┬─┘       │
-  │ b │ b │ a │ a │ a │ a │ e │    │         │
-  │ a │ a │ t │ t │ t │ t │ t │    │         │
-  │ h │ h │   │   │   │   │   │    │         │
-  │   │   │ P │ P │ L │ S │ D │    │         │
-  │ P │ P │ e │ e │ a │ a │ a │    │         │
-  │ e │ e │ m │ n │ p │ l │ t │    │         │
-  │ m │ n │ a │ g │ o │ d │ a │    │         │
-  │ a │ g │ s │ e │ r │ o │   │    │         │
-  │ s │ e │ u │ l │ a │   │   │    │         │
-  │ u │ l │ k │ u │ n │   │   │    │         │
-  │ k │ u │ a │ a │   │   │   │    │         │
-  │ a │ a │ n │ r │   │   │   │    │         │
-  │ n │ r │   │ a │   │   │   │    │         │
-  │   │ a │   │ n │   │   │   │    │         │
-  │   │ n │   │   │   │   │   │    │         │
-  └─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┘    │         │
-    │   │   │   │   │   │   │      │         │
-    └───┴───┴───┴───┴───┴───┴──────┴─────────┤
-                                             │
-            ┌────────────────────────────────┘
-            │
-            ▼
-   ┌─────────────────┐      ┌─────────────────┐
-   │ Pilihan = 0 ?   │  Ya  │  Tampilkan      │
-   │   (Decision)    ├─────►│  Pesan Keluar   │
-   └────────┬────────┘      │  (Process)      │
-            │ Tidak         └────────┬────────┘
-            │                        │
-            │                        ▼
-            │               ┌─────────────────┐
-            │               │    SELESAI      │
-            │               │   (Terminator)  │
-            │               └─────────────────┘
-            │
-            └──────────► (Kembali ke Bersihkan Layar)
+        ┌─────────────────────────────────────┐
+        │         INISIALISASI VARIABEL       │
+        │              (Process)              │
+        │                                     │
+        │  • totalTransaksiPemasukan = 0      │
+        │  • totalTransaksiPengeluaran = 0    │
+        │  • Array keteranganPemasukan = []   │
+        │  • Array jumlahPemasukan = []       │
+        │  • Array keteranganPengeluaran = [] │
+        │  • Array jumlahPengeluaran = []     │
+        └────────────────┬────────────────────┘
+                         │
+            ┌────────────┴────────────────┐
+            │                             │
+            ▼                             │
+   ┌─────────────────┐                    │
+   │  Bersihkan      │                    │
+   │  Layar          │                    │
+   │  (Process)      │                    │
+   └────────┬────────┘                    │
+            │                             │
+            ▼                             │
+   ┌─────────────────┐                    │
+   │ Tampilkan       │                    │
+   │ Header & Menu   │                    │
+   │ (Process)       │                    │
+   └────────┬────────┘                    │
+            │                             │
+            ▼                             │
+   ┌─────────────────┐                    │
+   │  Input          │                    │
+   │  Pilihan        │                    │
+   │  (Input/Output) │                    │
+   └────────┬────────┘                    │
+            │                             │
+            ▼                             │
+   ┌─────────────────┐                    │
+   │   Pilihan?      │                    │
+   │   (Decision)    │                    │
+   └────────┬────────┘                    │
+            │                             │
+    ┌───────┴───────┐                     │
+    │               │                     │
+    ▼               ▼                     │
+┌───────┐       ┌───────┐                 │
+│1,2,3, │       │   0   │                 │
+│4,5,6,7│       └───┬───┘                 │
+└───┬───┘           │                     │
+    │               ▼                     │
+    ▼       ┌─────────────────┐           │
+┌────────┐  │  Tampilkan      │           │
+│Jalankan│  │  "Terima Kasih" │           │
+│ Fungsi │  │  (Process)      │           │
+│ Sesuai │  └────────┬────────┘           │
+│Pilihan │           │                    │
+│(Process│           ▼                    │
+└───┬────┘  ┌─────────────────┐           │
+    │       │    SELESAI      │           │
+    │       │   (Terminator)  │           │
+    │       └─────────────────┘           │
+    │                                     │
+    └─────────────────────────────────────┘
+              (Kembali ke Bersihkan Layar)
 ```
+
+**Penjelasan Inisialisasi Variabel:**
+- `totalTransaksiPemasukan = 0` → Menyimpan jumlah transaksi pemasukan (awalnya 0)
+- `totalTransaksiPengeluaran = 0` → Menyimpan jumlah transaksi pengeluaran (awalnya 0)
+- `Array keteranganPemasukan` → Array kosong untuk menyimpan keterangan pemasukan
+- `Array jumlahPemasukan` → Array kosong untuk menyimpan nilai pemasukan
+- `Array keteranganPengeluaran` → Array kosong untuk menyimpan keterangan pengeluaran
+- `Array jumlahPengeluaran` → Array kosong untuk menyimpan nilai pengeluaran
 
 ---
 
