@@ -684,12 +684,12 @@ g++ -o main main.cpp
 
 | Perhitungan | Rumus |
 |-------------|-------|
-| **Total Pemasukan** | $\sum_{i=0}^{n-1} \text{jumlahPemasukan}[i]$ |
-| **Total Pengeluaran** | $\sum_{i=0}^{n-1} \text{jumlahPengeluaran}[i]$ |
-| **Saldo** | $\text{Saldo} = \text{Total Pemasukan} - \text{Total Pengeluaran}$ |
-| **Margin Keuntungan** | $\text{Margin} = \frac{\text{Saldo}}{\text{Total Pemasukan}} \times 100\%$ |
-| **Rata-rata Pemasukan** | $\bar{x}_{masuk} = \frac{\text{Total Pemasukan}}{n_{masuk}}$ |
-| **Rata-rata Pengeluaran** | $\bar{x}_{keluar} = \frac{\text{Total Pengeluaran}}{n_{keluar}}$ |
+| **Total Pemasukan** | Σ jumlahPemasukan[i], dimana i = 0 sampai n-1 |
+| **Total Pengeluaran** | Σ jumlahPengeluaran[i], dimana i = 0 sampai n-1 |
+| **Saldo** | Saldo = Total Pemasukan - Total Pengeluaran |
+| **Margin Keuntungan** | Margin = (Saldo / Total Pemasukan) × 100% |
+| **Rata-rata Pemasukan** | Rata-rata Pemasukan = Total Pemasukan / Jumlah Transaksi Pemasukan |
+| **Rata-rata Pengeluaran** | Rata-rata Pengeluaran = Total Pengeluaran / Jumlah Transaksi Pengeluaran |
 
 ---
 
