@@ -706,9 +706,16 @@ g++ -o main main.cpp
 
 ## 👤 Informasi
 
+**Nama:** Muhammad Asyrafi Hidayatullah  
 **Mata Kuliah:** Algoritma dan Pemrograman  
 **Semester:** 1  
-**Tahun:** 2024/2025
+**Tahun:** 2025
+
+---
+
+## 📝 Catatan Pengembangan
+
+Program ini dikembangkan oleh **Muhammad Asyrafi Hidayatullah** dengan menggunakan **AI sebagai alat bantu** dalam proses pembuatan dokumentasi dan optimalisasi kode.
 
 ---
 
