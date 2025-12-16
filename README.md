@@ -257,15 +257,53 @@ ALGORITMA:
 
 ## 📊 FLOWCHART PROGRAM
 
+### 🔶 Definisi Flowchart
+
+**Flowchart** (Diagram Alir) adalah representasi grafis dari langkah-langkah dan urutan prosedur dalam suatu program atau proses. Flowchart menggambarkan alur logika program secara visual sehingga lebih mudah dipahami.
+
+#### 📌 Pengertian Flowchart
+
+Flowchart adalah diagram yang menunjukkan urutan langkah-langkah dalam menyelesaikan suatu masalah atau proses menggunakan simbol-simbol standar yang dihubungkan dengan garis alir (flow lines). Flowchart membantu programmer dalam:
+
+1. **Memahami Alur Program** - Visualisasi langkah-langkah program dari awal hingga akhir
+2. **Menganalisis Masalah** - Mengidentifikasi titik-titik keputusan dan percabangan
+3. **Dokumentasi Program** - Menyediakan dokumentasi visual yang mudah dipahami
+4. **Komunikasi** - Memudahkan komunikasi antar programmer atau dengan pengguna
+5. **Debugging** - Membantu menemukan kesalahan logika dalam program
+
+#### 📌 Jenis-Jenis Flowchart
+
+| Jenis | Keterangan |
+|-------|------------|
+| **System Flowchart** | Menggambarkan alur kerja sistem secara keseluruhan |
+| **Program Flowchart** | Menggambarkan alur logika program secara detail |
+| **Document Flowchart** | Menggambarkan alur dokumen dalam suatu sistem |
+| **Process Flowchart** | Menggambarkan langkah-langkah proses secara berurutan |
+
+#### 📌 Aturan Pembuatan Flowchart
+
+1. Flowchart harus dimulai dari **atas ke bawah** atau **kiri ke kanan**
+2. Setiap flowchart harus memiliki **satu titik awal (START)** dan **satu atau lebih titik akhir (END)**
+3. Arah alur harus jelas dengan menggunakan **garis panah**
+4. Gunakan **simbol standar** yang sesuai dengan fungsinya
+5. Hindari **perpotongan garis** alir sebisa mungkin
+6. Setiap simbol harus memiliki **keterangan yang jelas dan singkat**
+7. Gunakan **connector** jika flowchart terlalu panjang atau kompleks
+
+---
+
 ### 🔶 Keterangan Simbol Flowchart
 
-| Simbol | Nama | Keterangan |
-|--------|------|------------|
-| ⬭ (Oval) | **Terminator** | Simbol untuk permulaan (START) atau akhir (STOP) dari program |
-| ▭ (Persegi Panjang) | **Process** | Simbol untuk proses/pengolahan data yang dilakukan oleh komputer |
-| ◇ (Belah Ketupat) | **Decision** | Simbol untuk pengambilan keputusan berdasarkan kondisi (Ya/Tidak) |
-| ▱ (Jajar Genjang) | **Input/Output** | Simbol untuk proses input dan output data |
-| → (Panah) | **Flow Direction** | Simbol penghubung alur antar simbol |
+| Simbol | Nama | Keterangan | Fungsi |
+|--------|------|------------|--------|
+| ⬭ (Oval) | **Terminator** | Simbol berbentuk oval/elips | Menandakan permulaan (START) atau akhir (STOP/END) dari program |
+| ▭ (Persegi Panjang) | **Process** | Simbol berbentuk persegi panjang | Menyatakan proses/pengolahan data yang dilakukan oleh komputer, seperti perhitungan, assignment, atau operasi |
+| ◇ (Belah Ketupat) | **Decision** | Simbol berbentuk belah ketupat/diamond | Menyatakan pengambilan keputusan berdasarkan kondisi tertentu, memiliki dua atau lebih cabang (Ya/Tidak atau True/False) |
+| ▱ (Jajar Genjang) | **Input/Output** | Simbol berbentuk jajar genjang | Menyatakan proses input (menerima data dari pengguna) atau output (menampilkan hasil ke layar) |
+| → (Panah) | **Flow Direction** | Garis dengan anak panah | Menunjukkan arah alur program dan menghubungkan antar simbol |
+| ○ (Lingkaran Kecil) | **Connector** | Simbol berbentuk lingkaran kecil | Menghubungkan bagian flowchart yang terputus dalam satu halaman |
+| ⬠ (Pentagon) | **Off-page Connector** | Simbol berbentuk pentagon | Menghubungkan flowchart yang berlanjut ke halaman berbeda |
+| ▭▭ (Predefined Process) | **Subroutine/Procedure** | Persegi panjang dengan garis vertikal di sisi | Memanggil subprogram atau prosedur yang sudah didefinisikan |
 
 ---
 
