@@ -16,7 +16,6 @@ Program **Sistem Manajemen Keuangan Usaha Online** adalah aplikasi berbasis kons
 | 4 | Lihat Riwayat Pengeluaran | Menampilkan daftar semua pengeluaran |
 | 5 | Laporan Keuangan Lengkap | Menampilkan laporan pemasukan & pengeluaran |
 | 6 | Saldo & Status Keuangan | Menampilkan saldo dan analisis keuangan |
-| 7 | Reset Semua Data | Menghapus semua data transaksi |
 | 0 | Keluar Program | Mengakhiri program |
 
 ---
@@ -63,8 +62,6 @@ ALGORITMA:
                 Panggil prosedur lihatLaporanLengkap()
              LAIN JIKA pilihan = 6 MAKA
                 Panggil prosedur lihatSaldoDanStatus()
-             LAIN JIKA pilihan = 7 MAKA
-                Panggil prosedur resetData()
              LAIN JIKA pilihan = 0 MAKA
                 Tampilkan pesan "Terima Kasih"
              LAIN
@@ -218,39 +215,6 @@ ALGORITMA:
         9.4. Tampilkan "STATUS: IMPAS / BREAK EVEN"
        AKHIR JIKA
     10. SELESAI
-```
-
----
-
-### 🔷 Algoritma Reset Data
-
-```
-ALGORITMA resetData
-
-DEKLARASI:
-    konfirmasi : char
-    i : integer
-
-ALGORITMA:
-    1. MULAI
-    2. Bersihkan layar
-    3. Tampilkan header "RESET SEMUA DATA"
-    4. Tampilkan peringatan dan data yang akan dihapus
-    5. Input konfirmasi (y/n)
-    6. JIKA konfirmasi = 'y' ATAU konfirmasi = 'Y' MAKA
-        6.1. Set totalTransaksiPemasukan = 0
-        6.2. Set totalTransaksiPengeluaran = 0
-        6.3. UNTUK i = 0 SAMPAI MAX_TRANSAKSI - 1 LAKUKAN
-            6.3.1. keteranganPemasukan[i] = ""
-            6.3.2. jumlahPemasukan[i] = 0
-            6.3.3. keteranganPengeluaran[i] = ""
-            6.3.4. jumlahPengeluaran[i] = 0
-             AKHIR UNTUK
-        6.4. Tampilkan "Semua data telah direset"
-       LAIN
-        6.5. Tampilkan "Data tidak jadi dihapus"
-       AKHIR JIKA
-    7. SELESAI
 ```
 
 ---
@@ -620,57 +584,6 @@ Flowchart adalah diagram yang menunjukkan urutan langkah-langkah dalam menyelesa
                     └────────┬────────┘             │
                              │                      │
                              ├──────────────────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │    SELESAI      │
-                    │   (Terminator)  │
-                    └─────────────────┘
-```
-
----
-
-### 🔶 Flowchart Reset Data
-
-```
-                    ┌─────────────────┐
-                    │     MULAI       │
-                    │   (Terminator)  │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ Tampilkan       │
-                    │ Peringatan &    │
-                    │ Data yg Dihapus │
-                    │ (Output)        │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ Input           │
-                    │ Konfirmasi      │
-                    │ (y/n)           │
-                    │ (Input/Output)  │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ konfirmasi =    │     ┌─────────────────┐
-                    │ 'y' atau 'Y' ?  │ Ya  │ Reset semua     │
-                    │   (Decision)    ├────►│ variabel ke 0   │
-                    └────────┬────────┘     │ (Process)       │
-                             │ Tidak        └────────┬────────┘
-                             │                       │
-                             ▼                       ▼
-                    ┌─────────────────┐     ┌─────────────────┐
-                    │ Tampilkan       │     │ Tampilkan       │
-                    │ "Dibatalkan"    │     │ "Data Berhasil  │
-                    │ (Output)        │     │  Direset"       │
-                    └────────┬────────┘     │ (Output)        │
-                             │              └────────┬────────┘
-                             │                       │
-                             ├───────────────────────┘
                              │
                              ▼
                     ┌─────────────────┐

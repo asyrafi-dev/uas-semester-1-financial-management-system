@@ -71,7 +71,6 @@ void tampilkanMenu() {
     cout << "| [4] Lihat Riwayat Pengeluaran                  |" << endl;
     cout << "| [5] Lihat Laporan Keuangan Lengkap             |" << endl;
     cout << "| [6] Lihat Saldo & Status Keuangan              |" << endl;
-    cout << "| [7] Reset Semua Data                           |" << endl;
     cout << "| [0] Keluar dari Program                        |" << endl;
     cout << GARIS_PENDEK << endl;
 }
@@ -426,51 +425,6 @@ void lihatSaldoDanStatus() {
     pauseProgram();
 }
 
-// Fungsi untuk reset semua data
-void resetData() {
-    clearScreen();
-    tampilkanHeader();
-    
-    cout << "\n" << GARIS_PENDEK << endl;
-    cout << "|            RESET SEMUA DATA                    |" << endl;
-    cout << GARIS_PENDEK << endl;
-    
-    cout << "\n[!] PERINGATAN!" << endl;
-    cout << "    Anda akan menghapus SEMUA data keuangan." << endl;
-    cout << "    Tindakan ini TIDAK DAPAT dibatalkan!" << endl;
-    
-    cout << "\n    Data yang akan dihapus:" << endl;
-    cout << "    - " << totalTransaksiPemasukan << " transaksi pemasukan" << endl;
-    cout << "    - " << totalTransaksiPengeluaran << " transaksi pengeluaran" << endl;
-    cout << "    - Total: " << formatRupiah(hitungTotalPemasukan()) << " pemasukan" << endl;
-    cout << "    - Total: " << formatRupiah(hitungTotalPengeluaran()) << " pengeluaran" << endl;
-    
-    char konfirmasi;
-    cout << "\nApakah Anda yakin? (y/n): ";
-    cin >> konfirmasi;
-    
-    if (konfirmasi == 'y' || konfirmasi == 'Y') {
-        // Reset semua data
-        totalTransaksiPemasukan = 0;
-        totalTransaksiPengeluaran = 0;
-        
-        for (int i = 0; i < MAX_TRANSAKSI; i++) {
-            keteranganPemasukan[i] = "";
-            jumlahPemasukan[i] = 0;
-            keteranganPengeluaran[i] = "";
-            jumlahPengeluaran[i] = 0;
-        }
-        
-        cout << "\n[V] BERHASIL!" << endl;
-        cout << "    Semua data telah direset." << endl;
-    } else {
-        cout << "\n[X] DIBATALKAN" << endl;
-        cout << "    Data tidak jadi dihapus." << endl;
-    }
-    
-    pauseProgram();
-}
-
 // ==================== FUNGSI UTAMA ====================
 int main() {
     int pilihan;
@@ -480,7 +434,7 @@ int main() {
         tampilkanHeader();
         tampilkanMenu();
         
-        cout << "\nMasukkan pilihan Anda [0-7]: ";
+        cout << "\nMasukkan pilihan Anda [0-6]: ";
         cin >> pilihan;
         
         switch (pilihan) {
@@ -502,9 +456,6 @@ int main() {
             case 6:
                 lihatSaldoDanStatus();
                 break;
-            case 7:
-                resetData();
-                break;
             case 0:
                 clearScreen();
                 tampilkanHeader();
@@ -518,7 +469,7 @@ int main() {
                 break;
             default:
                 cout << "\n[X] ERROR: Pilihan tidak valid!" << endl;
-                cout << "    Silakan pilih menu 0-7." << endl;
+                cout << "    Silakan pilih menu 0-6." << endl;
                 pauseProgram();
         }
         
