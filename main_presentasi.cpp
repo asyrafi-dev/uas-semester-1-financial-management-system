@@ -1,51 +1,91 @@
-#include <iostream>
-#include <iomanip>
-#include <string>
-using namespace std;
+/*
+ * ============================================================================
+ *                SISTEM MANAJEMEN KEUANGAN USAHA ONLINE
+ * ============================================================================
+ * Program ini dibuat untuk membantu pelaku usaha online dalam mencatat
+ * dan mengelola keuangan usaha mereka secara sederhana.
+ * 
+ * FITUR UTAMA:
+ * - Pencatatan pemasukan (uang masuk dari penjualan)
+ * - Pencatatan pengeluaran (biaya operasional, modal, dll)
+ * - Laporan keuangan lengkap
+ * - Analisis status keuangan (untung/rugi)
+ * ============================================================================
+ */
 
-// ==================== KONSTANTA ====================
-const int MAX_TRANSAKSI = 100;
+#include <iostream>   // Library untuk input/output (cin, cout)
+#include <iomanip>    // Library untuk format tampilan (setw, setprecision)
+#include <string>     // Library untuk tipe data string
+using namespace std;  // Agar tidak perlu menulis std:: setiap kali
+
+// ============================================================================
+//                         KONSTANTA PROGRAM
+// ============================================================================
+// Konstanta adalah nilai tetap yang tidak berubah selama program berjalan
+
+const int MAX_TRANSAKSI = 100;  // Batas maksimal transaksi yang bisa disimpan
 const string GARIS_PANJANG = "================================================";
 const string GARIS_PENDEK  = "------------------------------------------------";
 
-// ==================== VARIABEL GLOBAL ====================
-// Data Pemasukan
-string keteranganPemasukan[MAX_TRANSAKSI];
-double jumlahPemasukan[MAX_TRANSAKSI];
-int totalTransaksiPemasukan = 0;
+// ============================================================================
+//                         VARIABEL GLOBAL
+// ============================================================================
+// Variabel global dapat diakses dari semua fungsi dalam program
+// Menggunakan ARRAY untuk menyimpan banyak data transaksi
 
-// Data Pengeluaran
-string keteranganPengeluaran[MAX_TRANSAKSI];
-double jumlahPengeluaran[MAX_TRANSAKSI];
-int totalTransaksiPengeluaran = 0;
+// --- Data Pemasukan ---
+string keteranganPemasukan[MAX_TRANSAKSI];  // Array untuk menyimpan keterangan pemasukan
+double jumlahPemasukan[MAX_TRANSAKSI];       // Array untuk menyimpan nominal pemasukan
+int totalTransaksiPemasukan = 0;             // Counter jumlah transaksi pemasukan
 
-// ==================== FUNGSI-FUNGSI ====================
+// --- Data Pengeluaran ---
+string keteranganPengeluaran[MAX_TRANSAKSI]; // Array untuk menyimpan keterangan pengeluaran
+double jumlahPengeluaran[MAX_TRANSAKSI];     // Array untuk menyimpan nominal pengeluaran
+int totalTransaksiPengeluaran = 0;           // Counter jumlah transaksi pengeluaran
 
-// Fungsi untuk membersihkan layar
+// ============================================================================
+//                         FUNGSI-FUNGSI UTILITAS
+// ============================================================================
+
+/*
+ * Fungsi: clearScreen()
+ * Tujuan: Membersihkan layar console agar tampilan lebih rapi
+ * Cara kerja: Menggunakan preprocessor directive untuk mendeteksi OS
+ */
 void clearScreen() {
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
+    #ifdef _WIN32           // Jika sistem operasi Windows
+        system("cls");      // Gunakan perintah "cls"
+    #else                   // Jika sistem operasi lain (Linux/Mac)
+        system("clear");    // Gunakan perintah "clear"
     #endif
 }
 
-// Fungsi untuk jeda (tekan enter untuk lanjut)
+/*
+ * Fungsi: pauseProgram()
+ * Tujuan: Menghentikan program sementara sampai user menekan ENTER
+ * Berguna agar user bisa membaca output sebelum layar dibersihkan
+ */
 void pauseProgram() {
     cout << "\n" << GARIS_PENDEK << endl;
     cout << "Tekan ENTER untuk melanjutkan...";
-    cin.ignore();
-    cin.get();
+    cin.ignore();  // Mengabaikan karakter newline yang tersisa di buffer
+    cin.get();     // Menunggu user menekan ENTER
 }
 
-// Fungsi untuk menampilkan header program
+/*
+ * Fungsi: tampilkanHeader()
+ * Tujuan: Menampilkan judul/header program
+ */
 void tampilkanHeader() {
     cout << "\n" << GARIS_PANJANG << endl;
     cout << "|     SISTEM MANAJEMEN KEUANGAN USAHA ONLINE     |" << endl;
     cout << GARIS_PANJANG << endl;
 }
 
-// Fungsi untuk menampilkan menu utama
+/*
+ * Fungsi: tampilkanMenu()
+ * Tujuan: Menampilkan daftar menu pilihan kepada user
+ */
 void tampilkanMenu() {
     cout << "\n" << GARIS_PENDEK << endl;
     cout << "|              MENU UTAMA                        |" << endl;
@@ -60,57 +100,98 @@ void tampilkanMenu() {
     cout << GARIS_PENDEK << endl;
 }
 
-// Fungsi untuk format angka ke format Rupiah
+// ============================================================================
+//                    FUNGSI FORMAT RUPIAH (STRING MANIPULATION)
+// ============================================================================
+/*
+ * Fungsi: formatRupiah(double nilai)
+ * Tujuan: Mengubah angka menjadi format mata uang Rupiah
+ * Contoh: 1500000 -> "Rp 1.500.000,00"
+ * 
+ * KONSEP PENTING:
+ * - Konversi tipe data (casting)
+ * - Manipulasi string
+ * - Perulangan (loop) untuk menambah titik pemisah ribuan
+ */
 string formatRupiah(double nilai) {
     string hasil = "Rp ";
     
-    // Ambil nilai absolut untuk format
+    // Ambil nilai absolut (positif) untuk diformat
     double nilaiAbs = (nilai < 0) ? -nilai : nilai;
     
-    // Konversi ke string dengan 2 desimal
-    long long nilaiInt = static_cast<long long>(nilaiAbs);
-    int desimal = static_cast<int>((nilaiAbs - nilaiInt) * 100);
+    // Pisahkan bagian bulat dan desimal
+    long long nilaiInt = static_cast<long long>(nilaiAbs);  // Bagian bulat
+    int desimal = static_cast<int>((nilaiAbs - nilaiInt) * 100);  // 2 digit desimal
     
-    // Format dengan pemisah ribuan
+    // Konversi angka ke string dan tambahkan titik pemisah ribuan
     string angka = to_string(nilaiInt);
     string formatted = "";
     int count = 0;
     
+    // Loop dari belakang untuk menambah titik setiap 3 digit
     for (int i = angka.length() - 1; i >= 0; i--) {
         if (count > 0 && count % 3 == 0) {
-            formatted = "." + formatted;
+            formatted = "." + formatted;  // Tambah titik pemisah
         }
         formatted = angka[i] + formatted;
         count++;
     }
     
+    // Tambahkan tanda minus jika nilai negatif
     if (nilai < 0) {
         hasil = "-" + hasil;
     }
     
+    // Gabungkan semua: "Rp " + angka + "," + desimal
     hasil += formatted + "," + (desimal < 10 ? "0" : "") + to_string(desimal);
     return hasil;
 }
 
-// Fungsi untuk menghitung total pemasukan
+// ============================================================================
+//                    FUNGSI PERHITUNGAN (MENGGUNAKAN LOOP)
+// ============================================================================
+/*
+ * Fungsi: hitungTotalPemasukan()
+ * Tujuan: Menjumlahkan semua nilai dalam array jumlahPemasukan
+ * Konsep: Perulangan FOR untuk mengakses setiap elemen array
+ */
 double hitungTotalPemasukan() {
-    double total = 0;
+    double total = 0;  // Inisialisasi total = 0
+    
+    // Loop dari index 0 sampai totalTransaksiPemasukan-1
     for (int i = 0; i < totalTransaksiPemasukan; i++) {
-        total += jumlahPemasukan[i];
+        total += jumlahPemasukan[i];  // Tambahkan setiap elemen ke total
     }
-    return total;
+    
+    return total;  // Kembalikan hasil penjumlahan
 }
 
-// Fungsi untuk menghitung total pengeluaran
+/*
+ * Fungsi: hitungTotalPengeluaran()
+ * Tujuan: Menjumlahkan semua nilai dalam array jumlahPengeluaran
+ */
 double hitungTotalPengeluaran() {
     double total = 0;
+    
     for (int i = 0; i < totalTransaksiPengeluaran; i++) {
         total += jumlahPengeluaran[i];
     }
+    
     return total;
 }
 
-// Fungsi untuk menambah pemasukan
+// ============================================================================
+//                    FUNGSI INPUT DATA (ARRAY & VALIDASI)
+// ============================================================================
+/*
+ * Fungsi: tambahPemasukan()
+ * Tujuan: Menerima input pemasukan baru dari user dan menyimpan ke array
+ * 
+ * KONSEP PENTING:
+ * - Validasi input (cek apakah array penuh, cek nilai > 0)
+ * - Menyimpan data ke array menggunakan index
+ * - Increment counter setelah data disimpan
+ */
 void tambahPemasukan() {
     clearScreen();
     tampilkanHeader();
@@ -119,34 +200,43 @@ void tambahPemasukan() {
     cout << "|           TAMBAH PEMASUKAN                     |" << endl;
     cout << GARIS_PENDEK << endl;
     
+    // VALIDASI 1: Cek apakah array sudah penuh
     if (totalTransaksiPemasukan >= MAX_TRANSAKSI) {
         cout << "\n[!] PERINGATAN: Data pemasukan sudah penuh!" << endl;
         cout << "    Maksimal " << MAX_TRANSAKSI << " transaksi." << endl;
         pauseProgram();
-        return;
+        return;  // Keluar dari fungsi jika array penuh
     }
     
+    // Deklarasi variabel untuk menampung input
     string keterangan;
     double jumlah;
     
+    // Input keterangan (menggunakan getline untuk bisa input dengan spasi)
     cout << "\nMasukkan keterangan pemasukan: ";
-    cin.ignore();
-    getline(cin, keterangan);
+    cin.ignore();  // Bersihkan buffer input
+    getline(cin, keterangan);  // Baca satu baris penuh
     
+    // Input jumlah nominal
     cout << "Masukkan jumlah pemasukan    : Rp ";
     cin >> jumlah;
     
+    // VALIDASI 2: Cek apakah jumlah valid (lebih dari 0)
     if (jumlah <= 0) {
         cout << "\n[X] ERROR: Jumlah harus lebih dari 0!" << endl;
         pauseProgram();
         return;
     }
     
-    // Simpan data
+    // SIMPAN DATA KE ARRAY
+    // Index yang digunakan adalah nilai totalTransaksiPemasukan saat ini
     keteranganPemasukan[totalTransaksiPemasukan] = keterangan;
     jumlahPemasukan[totalTransaksiPemasukan] = jumlah;
+    
+    // INCREMENT COUNTER (penting! agar data berikutnya disimpan di index selanjutnya)
     totalTransaksiPemasukan++;
     
+    // Tampilkan konfirmasi
     cout << "\n" << GARIS_PENDEK << endl;
     cout << "[V] BERHASIL!" << endl;
     cout << GARIS_PENDEK << endl;
@@ -158,7 +248,11 @@ void tambahPemasukan() {
     pauseProgram();
 }
 
-// Fungsi untuk menambah pengeluaran
+/*
+ * Fungsi: tambahPengeluaran()
+ * Tujuan: Menerima input pengeluaran baru dari user dan menyimpan ke array
+ * Logika sama dengan tambahPemasukan()
+ */
 void tambahPengeluaran() {
     clearScreen();
     tampilkanHeader();
@@ -190,7 +284,7 @@ void tambahPengeluaran() {
         return;
     }
     
-    // Simpan data
+    // Simpan ke array pengeluaran
     keteranganPengeluaran[totalTransaksiPengeluaran] = keterangan;
     jumlahPengeluaran[totalTransaksiPengeluaran] = jumlah;
     totalTransaksiPengeluaran++;
@@ -206,7 +300,19 @@ void tambahPengeluaran() {
     pauseProgram();
 }
 
-// Fungsi untuk menampilkan riwayat pemasukan
+
+// ============================================================================
+//                    FUNGSI MENAMPILKAN DATA (LOOP & FORMAT)
+// ============================================================================
+/*
+ * Fungsi: lihatRiwayatPemasukan()
+ * Tujuan: Menampilkan semua data pemasukan dalam bentuk tabel
+ * 
+ * KONSEP PENTING:
+ * - Perulangan FOR untuk menampilkan semua elemen array
+ * - setw() untuk mengatur lebar kolom (format tabel)
+ * - left/right untuk alignment (rata kiri/kanan)
+ */
 void lihatRiwayatPemasukan() {
     clearScreen();
     tampilkanHeader();
@@ -215,22 +321,26 @@ void lihatRiwayatPemasukan() {
     cout << "|           RIWAYAT PEMASUKAN                    |" << endl;
     cout << GARIS_PANJANG << endl;
     
+    // Cek apakah ada data
     if (totalTransaksiPemasukan == 0) {
         cout << "\n[i] Belum ada data pemasukan." << endl;
         cout << "    Silakan tambah pemasukan terlebih dahulu." << endl;
     } else {
+        // Tampilkan header tabel
         cout << "\n";
-        cout << left << setw(5) << "No" 
-            << setw(30) << "Keterangan" 
-            << right << setw(20) << "Jumlah" << endl;
+        cout << left << setw(5) << "No"           // Kolom nomor, lebar 5, rata kiri
+            << setw(30) << "Keterangan"           // Kolom keterangan, lebar 30
+            << right << setw(20) << "Jumlah" << endl;  // Kolom jumlah, lebar 20, rata kanan
         cout << GARIS_PENDEK << endl;
         
+        // LOOP untuk menampilkan setiap transaksi
         for (int i = 0; i < totalTransaksiPemasukan; i++) {
-            cout << left << setw(5) << (i + 1) 
-                << setw(30) << keteranganPemasukan[i].substr(0, 28) 
+            cout << left << setw(5) << (i + 1)    // Nomor urut (index + 1)
+                << setw(30) << keteranganPemasukan[i].substr(0, 28)  // Potong max 28 karakter
                 << right << setw(20) << formatRupiah(jumlahPemasukan[i]) << endl;
         }
         
+        // Tampilkan total
         cout << GARIS_PENDEK << endl;
         cout << left << setw(35) << "TOTAL PEMASUKAN" 
             << right << setw(20) << formatRupiah(hitungTotalPemasukan()) << endl;
@@ -240,7 +350,10 @@ void lihatRiwayatPemasukan() {
     pauseProgram();
 }
 
-// Fungsi untuk menampilkan riwayat pengeluaran
+/*
+ * Fungsi: lihatRiwayatPengeluaran()
+ * Tujuan: Menampilkan semua data pengeluaran dalam bentuk tabel
+ */
 void lihatRiwayatPengeluaran() {
     clearScreen();
     tampilkanHeader();
@@ -274,20 +387,27 @@ void lihatRiwayatPengeluaran() {
     pauseProgram();
 }
 
-// Fungsi untuk menampilkan laporan keuangan lengkap
+// ============================================================================
+//                    FUNGSI LAPORAN LENGKAP
+// ============================================================================
+/*
+ * Fungsi: lihatLaporanLengkap()
+ * Tujuan: Menampilkan laporan keuangan lengkap (pemasukan + pengeluaran + ringkasan)
+ */
 void lihatLaporanLengkap() {
     clearScreen();
     tampilkanHeader();
     
+    // Hitung total-total yang diperlukan
     double totalMasuk = hitungTotalPemasukan();
     double totalKeluar = hitungTotalPengeluaran();
-    double saldo = totalMasuk - totalKeluar;
+    double saldo = totalMasuk - totalKeluar;  // Saldo = Pemasukan - Pengeluaran
     
     cout << "\n" << GARIS_PANJANG << endl;
     cout << "|        LAPORAN KEUANGAN LENGKAP                |" << endl;
     cout << GARIS_PANJANG << endl;
     
-    // Ringkasan Pemasukan
+    // --- Bagian Pemasukan ---
     cout << "\n>>> PEMASUKAN <<<" << endl;
     cout << GARIS_PENDEK << endl;
     if (totalTransaksiPemasukan == 0) {
@@ -307,7 +427,7 @@ void lihatLaporanLengkap() {
     cout << left << setw(35) << "SUBTOTAL PEMASUKAN" 
         << right << setw(20) << formatRupiah(totalMasuk) << endl;
     
-    // Ringkasan Pengeluaran
+    // --- Bagian Pengeluaran ---
     cout << "\n>>> PENGELUARAN <<<" << endl;
     cout << GARIS_PENDEK << endl;
     if (totalTransaksiPengeluaran == 0) {
@@ -327,7 +447,7 @@ void lihatLaporanLengkap() {
     cout << left << setw(35) << "SUBTOTAL PENGELUARAN" 
         << right << setw(20) << formatRupiah(totalKeluar) << endl;
     
-    // Ringkasan Total
+    // --- Ringkasan Total ---
     cout << "\n" << GARIS_PANJANG << endl;
     cout << "|              RINGKASAN                         |" << endl;
     cout << GARIS_PANJANG << endl;
@@ -343,20 +463,36 @@ void lihatLaporanLengkap() {
     pauseProgram();
 }
 
-// Fungsi untuk menampilkan saldo dan status keuangan
+// ============================================================================
+//                    FUNGSI ANALISIS STATUS KEUANGAN
+// ============================================================================
+/*
+ * Fungsi: lihatSaldoDanStatus()
+ * Tujuan: Menampilkan analisis status keuangan (untung/rugi/impas)
+ * 
+ * KONSEP PENTING:
+ * - Percabangan IF-ELSE IF-ELSE untuk menentukan status
+ * - Perhitungan persentase margin keuntungan
+ * - Rata-rata transaksi
+ */
 void lihatSaldoDanStatus() {
     clearScreen();
     tampilkanHeader();
     
+    // Hitung semua nilai yang diperlukan
     double totalMasuk = hitungTotalPemasukan();
     double totalKeluar = hitungTotalPengeluaran();
     double saldo = totalMasuk - totalKeluar;
+    
+    // Hitung persentase margin (jika ada pemasukan)
+    // Rumus: (Saldo / Total Pemasukan) x 100%
     double persentase = (totalMasuk > 0) ? ((saldo / totalMasuk) * 100) : 0;
     
     cout << "\n" << GARIS_PANJANG << endl;
     cout << "|          SALDO & STATUS KEUANGAN               |" << endl;
     cout << GARIS_PANJANG << endl;
     
+    // --- Ringkasan Keuangan ---
     cout << "\n>>> RINGKASAN KEUANGAN <<<" << endl;
     cout << GARIS_PENDEK << endl;
     cout << left << setw(30) << "Total Pemasukan" << ": " << formatRupiah(totalMasuk) << endl;
@@ -364,12 +500,14 @@ void lihatSaldoDanStatus() {
     cout << GARIS_PENDEK << endl;
     cout << left << setw(30) << "SALDO AKHIR" << ": " << formatRupiah(saldo) << endl;
     
+    // --- Statistik ---
     cout << "\n>>> STATISTIK <<<" << endl;
     cout << GARIS_PENDEK << endl;
     cout << left << setw(30) << "Jumlah Transaksi Masuk" << ": " << totalTransaksiPemasukan << " transaksi" << endl;
     cout << left << setw(30) << "Jumlah Transaksi Keluar" << ": " << totalTransaksiPengeluaran << " transaksi" << endl;
     cout << left << setw(30) << "Total Semua Transaksi" << ": " << (totalTransaksiPemasukan + totalTransaksiPengeluaran) << " transaksi" << endl;
     
+    // Hitung dan tampilkan rata-rata (jika ada transaksi)
     if (totalTransaksiPemasukan > 0) {
         double rataRataMasuk = totalMasuk / totalTransaksiPemasukan;
         cout << left << setw(30) << "Rata-rata Pemasukan" << ": " << formatRupiah(rataRataMasuk) << endl;
@@ -380,26 +518,35 @@ void lihatSaldoDanStatus() {
         cout << left << setw(30) << "Rata-rata Pengeluaran" << ": " << formatRupiah(rataRataKeluar) << endl;
     }
     
+    // --- Status Keuangan (PERCABANGAN IF-ELSE) ---
     cout << "\n>>> STATUS KEUANGAN <<<" << endl;
     cout << GARIS_PENDEK << endl;
     
+    // PERCABANGAN untuk menentukan status keuangan
     if (totalMasuk == 0 && totalKeluar == 0) {
+        // Kondisi 1: Belum ada transaksi sama sekali
         cout << "[i] STATUS: BELUM ADA TRANSAKSI" << endl;
         cout << "    Silakan mulai mencatat keuangan Anda." << endl;
-    } else if (saldo > 0) {
+    } 
+    else if (saldo > 0) {
+        // Kondisi 2: Saldo positif = UNTUNG
         cout << "[+] STATUS: UNTUNG / SURPLUS" << endl;
         cout << "    Selamat! Keuangan Anda dalam kondisi POSITIF." << endl;
         cout << "    Keuntungan: " << formatRupiah(saldo) << endl;
         if (totalMasuk > 0) {
-            cout << fixed << setprecision(2);
+            cout << fixed << setprecision(2);  // Format 2 angka di belakang koma
             cout << "    Margin Keuntungan: " << persentase << "%" << endl;
         }
-    } else if (saldo < 0) {
+    } 
+    else if (saldo < 0) {
+        // Kondisi 3: Saldo negatif = RUGI
         cout << "[-] STATUS: RUGI / DEFISIT" << endl;
         cout << "    Perhatian! Keuangan Anda dalam kondisi NEGATIF." << endl;
-        cout << "    Kerugian: " << formatRupiah(-saldo) << endl;
+        cout << "    Kerugian: " << formatRupiah(-saldo) << endl;  // -saldo agar tampil positif
         cout << "    Saran: Kurangi pengeluaran atau tingkatkan pemasukan." << endl;
-    } else {
+    } 
+    else {
+        // Kondisi 4: Saldo = 0 = IMPAS
         cout << "[=] STATUS: IMPAS / BREAK EVEN" << endl;
         cout << "    Pemasukan dan pengeluaran Anda seimbang." << endl;
         cout << "    Tidak ada keuntungan atau kerugian." << endl;
@@ -410,38 +557,52 @@ void lihatSaldoDanStatus() {
     pauseProgram();
 }
 
-// ==================== FUNGSI UTAMA ====================
+// ============================================================================
+//                         FUNGSI UTAMA (MAIN)
+// ============================================================================
+/*
+ * Fungsi: main()
+ * Ini adalah fungsi utama yang pertama kali dijalankan saat program dimulai
+ * 
+ * KONSEP PENTING:
+ * - DO-WHILE loop: Menu akan terus ditampilkan sampai user memilih keluar (0)
+ * - SWITCH-CASE: Untuk menangani pilihan menu user
+ */
 int main() {
-    int pilihan;
+    int pilihan;  // Variabel untuk menyimpan pilihan menu user
     
+    // DO-WHILE: Jalankan minimal 1 kali, ulangi selama pilihan != 0
     do {
         clearScreen();
         tampilkanHeader();
         tampilkanMenu();
         
+        // Input pilihan dari user
         cout << "\nMasukkan pilihan Anda [0-6]: ";
         cin >> pilihan;
         
+        // SWITCH-CASE: Eksekusi fungsi sesuai pilihan
         switch (pilihan) {
             case 1:
-                tambahPemasukan();
+                tambahPemasukan();      // Panggil fungsi tambah pemasukan
                 break;
             case 2:
-                tambahPengeluaran();
+                tambahPengeluaran();    // Panggil fungsi tambah pengeluaran
                 break;
             case 3:
-                lihatRiwayatPemasukan();
+                lihatRiwayatPemasukan();    // Panggil fungsi lihat riwayat pemasukan
                 break;
             case 4:
-                lihatRiwayatPengeluaran();
+                lihatRiwayatPengeluaran();  // Panggil fungsi lihat riwayat pengeluaran
                 break;
             case 5:
-                lihatLaporanLengkap();
+                lihatLaporanLengkap();      // Panggil fungsi laporan lengkap
                 break;
             case 6:
-                lihatSaldoDanStatus();
+                lihatSaldoDanStatus();      // Panggil fungsi status keuangan
                 break;
             case 0:
+                // Tampilkan pesan keluar
                 clearScreen();
                 tampilkanHeader();
                 cout << "\n" << GARIS_PENDEK << endl;
@@ -453,12 +614,13 @@ int main() {
                 cout << "\n" << GARIS_PANJANG << endl;
                 break;
             default:
+                // Jika pilihan tidak valid (bukan 0-6)
                 cout << "\n[X] ERROR: Pilihan tidak valid!" << endl;
                 cout << "    Silakan pilih menu 0-6." << endl;
                 pauseProgram();
         }
         
-    } while (pilihan != 0);
+    } while (pilihan != 0);  // Ulangi selama pilihan bukan 0
     
-    return 0;
+    return 0;  // Program selesai dengan sukses
 }
